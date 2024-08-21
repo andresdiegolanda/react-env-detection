@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import configMap from './config/constants';
 
 // Load configuration based on process.env.REACT_APP_ENVIRONMENT using a switch statement
 let config;
@@ -38,6 +39,10 @@ const buildEnvironment = process.env.BUILD_ENV || 'development';
 // Detect environment using NODE_ENV
 const nodeEnvironment = process.env.NODE_ENV + ' from process';
 
+// Load configuration using a hardcoded map
+const mapEnvironment = window.appEnvironment || 'default';
+const mapConfig = configMap[mapEnvironment] || configMap.default;
+
 const App = () => {
   const [dynamicConfig, setDynamicConfig] = useState(null);
 
@@ -71,6 +76,10 @@ const App = () => {
       <p><strong>API URL from Config:</strong> {config.apiUrl} from json file</p>
       <p><strong>Feature Flag from Config:</strong> {config.featureFlag ? 'Enabled' : 'Disabled'} from json file</p>
 
+      <h2>Configuration from Map</h2>
+      <p><strong>API URL from Map Config:</strong> {mapConfig.apiUrl}</p>
+      <p><strong>Feature Flag from Map Config:</strong> {mapConfig.featureFlag ? 'Enabled' : 'Disabled'}</p>
+
       {dynamicConfig ? (
         <>
           <h2>Dynamic Configuration</h2>
@@ -85,4 +94,3 @@ const App = () => {
 };
 
 export default App;
-
